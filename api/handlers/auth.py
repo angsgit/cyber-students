@@ -1,7 +1,6 @@
 from datetime import datetime
 from time import mktime
 from tornado.gen import coroutine
-
 from .base import BaseHandler
 
 class AuthHandler(BaseHandler):
@@ -44,8 +43,8 @@ class AuthHandler(BaseHandler):
             return
 
         self.current_user = {
-            'email': user['email'],
-            'display_name': user['displayName'],
-            'phone': user['phone'],
-            'disability': user['disability']
+            'email': user.get('email', ''),
+            'phone': user.get('phone', ''),
+            'displayName': user.get('displayName', ''),
+            'disability': user.get('disability', '')
         }

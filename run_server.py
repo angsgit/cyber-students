@@ -18,7 +18,10 @@ if __name__ == '__main__':
     main()
 
 # REG SYNTAX FOR WINDOWS PS
-# curl -X POST 'http://localhost:4000/students/api/registration' -H 'Content-Type: application/json' -d '{"email":"foo@bar.com","password":"pass","displayName":"Foo Bar"}'
+# curl -X POST 'http://localhost:4000/students/api/registration' -H 'Content-Type: application/json' -d '{"email":"angad@angad.com","password":"test","displayName":"ANGAD", "phone":"12345", "disability":"none"}'
 
 #LOGIN SYNTAX FOR WINDOWS PS
 # curl -X POST -H "Content-Type: application/json" -d '{"email":"angad@angad.com","password":"test"}' http://localhost:4000/students/api/login
+
+# DISPLAY PROFILE
+# curl -H "X-TOKEN: INSERT_TOKEN" http://localhost:4000/students/api/user

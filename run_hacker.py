@@ -20,7 +20,8 @@ def get_users(db):
   for doc in docs:
     click.echo(doc)
 
-#Funtion to clear all users from DB
+#Funtion to clear all users from DB, for testing
+
 # async def clear_users():
 #     db = MotorClient(**MONGODB_HOST)[MONGODB_DBNAME]
 #     await db.users.drop()   # Drop the users collection completely

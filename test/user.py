@@ -4,12 +4,11 @@ from tornado.gen import coroutine
 from tornado.httputil import HTTPHeaders
 from tornado.ioloop import IOLoop
 from tornado.web import Application
-
 from api.handlers.user import UserHandler
-
 from .base import BaseTest
+import bcrypt
+from api.handlers.encryption import encrypt_field
 
-import urllib.parse
 
 class UserHandlerTest(BaseTest):
 
@@ -20,10 +19,17 @@ class UserHandlerTest(BaseTest):
 
     @coroutine
     def register(self):
+        hashed_password = bcrypt.hashpw(self.password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        encrypted_display_name = encrypt_field(self.display_name)
+        encrypted_phone = encrypt_field("123456789")  # dummy phone for completeness
+        encrypted_disability = encrypt_field("None")  # dummy disability
+
         yield self.get_app().db.users.insert_one({
             'email': self.email,
-            'password': self.password,
-            'displayName': self.display_name
+            'password': hashed_password,
+            'displayName': encrypted_display_name,
+            'phone': encrypted_phone,
+            'disability': encrypted_disability
         })
 
     @coroutine
