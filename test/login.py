@@ -21,12 +21,12 @@ class LoginHandlerTest(BaseTest):
 
     @coroutine
     def register(self):
-        #MODIFIED TO RUN TEST AGAINST HASHED PASSWORD
+        # HASH THE PASSWORD FOR TESTING
         hashed_password = bcrypt.hashpw(self.password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
         yield self.get_app().db.users.insert_one({
             'email': self.email,
-            'password': hashed_password,
+            'password': hashed_password,    # assigning hashed password to 'password' for testing
             'displayName': 'testDisplayName'
         })
 
