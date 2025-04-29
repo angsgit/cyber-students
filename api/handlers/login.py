@@ -61,7 +61,7 @@ class LoginHandler(BaseHandler):
             self.send_error(403, message='The email address and password are invalid!')
             return
 
-            # SECURE PASSWORD CHECK
+        # SECURE PASSWORD CHECK AFTER LOGIN
         if not bcrypt.checkpw(password.encode('utf-8'), user['password'].encode('utf-8')):
             self.send_error(403, message='The email address and password are invalid!')
             return
