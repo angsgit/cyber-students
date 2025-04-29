@@ -97,11 +97,30 @@ class RegistrationHandler(BaseHandler):
 
         phone_encrypted = base64.b64encode(iv_phone + ciphertext_phone).decode('utf-8')
 
+        # ---------------------------------------------------------------------------
+        # --- Encrypt DISABILITY ---
+
+        disability = body.get('disability', '')  # Optional, in case not provided
+        if not isinstance(disability, str):
+            disability = str(disability)  # Ensure it is a string before encrypting
+
+        iv_disability = os.urandom(16)
+
+        padder = padding.PKCS7(128).padder()
+        padded_disability = padder.update(disability.encode('utf-8')) + padder.finalize()
+
+        cipher = Cipher(algorithms.AES(key), modes.CBC(iv_disability), backend=default_backend())
+        encryptor = cipher.encryptor()
+        ciphertext_disability = encryptor.update(padded_disability) + encryptor.finalize()
+
+        disability_encrypted = base64.b64encode(iv_disability + ciphertext_disability).decode('utf-8')
+
         yield self.db.users.insert_one({
             'email': email,
             'password': hashed_password,
             'displayName': display_name_encrypted,
-            'phone': phone_encrypted
+            'phone': phone_encrypted,
+            'disability': disability_encrypted
         })
 
         self.set_status(200)

@@ -10,4 +10,5 @@ class UserHandler(AuthHandler):
         self.response['email'] = self.current_user['email']
         self.response['displayName'] = self.current_user['display_name']
         self.response['phone'] = self.current_user['phone']
+        self.response['disability'] = self.current_user['disability']
         self.write_json()
