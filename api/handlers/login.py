@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta
 from time import mktime
+
+import bcrypt
 from tornado.escape import json_decode, utf8
 from tornado.gen import coroutine
 from uuid import uuid4
@@ -59,7 +61,8 @@ class LoginHandler(BaseHandler):
             self.send_error(403, message='The email address and password are invalid!')
             return
 
-        if user['password'] != password:
+            # SECURE PASSWORD CHECK
+        if not bcrypt.checkpw(password.encode('utf-8'), user['password'].encode('utf-8')):
             self.send_error(403, message='The email address and password are invalid!')
             return
 

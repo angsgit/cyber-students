@@ -2,6 +2,7 @@ from json import dumps
 from logging import info
 from tornado.escape import json_decode, utf8
 from tornado.gen import coroutine
+import bcrypt
 
 from .base import BaseHandler
 
@@ -17,6 +18,10 @@ class RegistrationHandler(BaseHandler):
             password = body['password']
             if not isinstance(password, str):
                 raise Exception()
+
+            # HASH THE PASSWORD and decode the utf8 string for storing in db
+            hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
             display_name = body.get('displayName')
             if display_name is None:
                 display_name = email
@@ -48,7 +53,7 @@ class RegistrationHandler(BaseHandler):
 
         yield self.db.users.insert_one({
             'email': email,
-            'password': password,
+            'password': hashed_password,
             'displayName': display_name
         })
 

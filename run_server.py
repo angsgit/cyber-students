@@ -16,3 +16,7 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+# URL FOR WINDOWS PS
+# curl -X POST 'http://localhost:4000/students/api/registration' -H 'Content-Type: application/json' -d '{"email":"foo@bar.com","password":"pass","displayName":"Foo Bar"}'
+
