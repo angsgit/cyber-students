@@ -1,4 +1,6 @@
 from json import dumps
+
+import bcrypt
 from tornado.escape import json_decode, utf8
 from tornado.gen import coroutine
 from tornado.ioloop import IOLoop
@@ -19,9 +21,12 @@ class LoginHandlerTest(BaseTest):
 
     @coroutine
     def register(self):
+        #MODIFIED TO RUN TEST AGAINST HASHED PASSWORD
+        hashed_password = bcrypt.hashpw(self.password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
         yield self.get_app().db.users.insert_one({
             'email': self.email,
-            'password': self.password,
+            'password': hashed_password,
             'displayName': 'testDisplayName'
         })
 
