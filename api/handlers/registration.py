@@ -39,6 +39,14 @@ class RegistrationHandler(BaseHandler):
         if not isinstance(disability, str):
             disability = str(disability)
 
+        address = body.get('address', '')
+        if not isinstance(address, str):
+            address = str(address)
+
+        dob = body.get('dob', '')
+        if not isinstance(dob, str):
+            dob = str(dob)
+
         if not email:
             self.send_error(400, message='The email address is invalid!')
             return
@@ -64,6 +72,8 @@ class RegistrationHandler(BaseHandler):
         display_name_encrypted = encrypt_field(display_name)
         phone_encrypted = encrypt_field(phone)
         disability_encrypted = encrypt_field(disability)
+        address_encrypted = encrypt_field(address)
+        dob_encrypted = encrypt_field(dob)
 
         #---------------------------------------------------------------------------
 
@@ -72,7 +82,9 @@ class RegistrationHandler(BaseHandler):
             'password': hashed_password,
             'displayName': display_name_encrypted,
             'phone': phone_encrypted,
-            'disability': disability_encrypted
+            'disability': disability_encrypted,
+            'address': address_encrypted,
+            'dob': dob_encrypted
         })
 
         self.set_status(200)

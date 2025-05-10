@@ -28,6 +28,8 @@ class AuthHandler(BaseHandler):
             'displayName': 1,
             'phone': 1,
             'disability': 1,
+            'dob': 1,
+            'address': 1,
             'expiresIn': 1
         })
 
@@ -46,5 +48,7 @@ class AuthHandler(BaseHandler):
             'email': user.get('email', ''),
             'phone': user.get('phone', ''),
             'displayName': user.get('displayName', ''),
-            'disability': user.get('disability', '')
+            'disability': user.get('disability', ''),
+            'dob': user.get('dob', ''),
+            'address': user.get('address', '')
         }

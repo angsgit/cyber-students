@@ -13,7 +13,9 @@ def get_users(db):
     'password': 1,
     'displayName': 1,
     'phone': 1,
-    'disability': 1
+    'disability': 1,
+    'dob': 1,
+    'address': 1
   })
   docs = yield cur.to_list(length=None)
   print('There are ' + str(len(docs)) + ' registered users:')
@@ -22,10 +24,10 @@ def get_users(db):
 
 #Funtion to clear all users from DB, for testing
 
-# async def clear_users():
-#     db = MotorClient(**MONGODB_HOST)[MONGODB_DBNAME]
-#     await db.users.drop()   # Drop the users collection completely
-#     print("Users collection dropped.")
+async def clear_users():
+    db = MotorClient(**MONGODB_HOST)[MONGODB_DBNAME]
+    await db.users.drop()   # Drop the users collection completely
+    print("Users collection dropped.")
 
 @click.group()
 def cli():
@@ -35,7 +37,12 @@ def cli():
 def list():
     db = MotorClient(**MONGODB_HOST)[MONGODB_DBNAME]
     IOLoop.current().run_sync(lambda: get_users(db))
-    #IOLoop.current().run_sync(clear_users)
+
+#for clearing the DB if needed
+@cli.command()
+def clear():
+    db = MotorClient(**MONGODB_HOST)[MONGODB_DBNAME]
+    IOLoop.current().run_sync(lambda: clear_users())
 
 
 if __name__ == '__main__':

@@ -22,6 +22,14 @@ class UserHandler(AuthHandler):
         if encrypted_disability:
             self.response['disability'] = decrypt_field(encrypted_disability)
 
+        encrypted_address = self.current_user.get('address')
+        if  encrypted_address:
+            self.response['address'] = decrypt_field(encrypted_address)
+
+        encrypted_dob = self.current_user.get('dob')
+        if encrypted_dob:
+            self.response['dob'] = decrypt_field(encrypted_dob)
+
         self.write_json()
 
 
